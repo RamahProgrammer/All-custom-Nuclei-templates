@@ -1,0 +1,22 @@
+id: cors-misconfig
+
+info:
+  name: CORS Misconfiguration Detection
+  author: RamahProgrammer
+  severity: medium
+  tags: recon,cors,misconfig
+
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    headers:
+      Origin: https://evil.com
+
+    matchers:
+      - type: regex
+        part: header
+        regex:
+          - "Access-Control-Allow-Origin: \*"
+          - "Access-Control-Allow-Origin: https://evil.com"

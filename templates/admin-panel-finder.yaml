@@ -1,0 +1,22 @@
+id: admin-panel-finder
+
+info:
+  name: Admin Panel Finder
+  author: RamahProgrammer
+  severity: info
+  tags: recon,admin,exposure
+
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}/admin"
+      - "{{BaseURL}}/admin/login"
+      - "{{BaseURL}}/administrator"
+      - "{{BaseURL}}/admin.php"
+      - "{{BaseURL}}/wp-admin"
+
+    matchers:
+      - type: status
+        status:
+          - 200
+          - 302

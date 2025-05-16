@@ -1,0 +1,20 @@
+id: open-redirect-check
+
+info:
+  name: Open Redirect Checker
+  author: RamahProgrammer
+  severity: medium
+  tags: recon,redirect,security
+
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}/redirect?url=https://example.com"
+
+    redirects: false
+
+    matchers:
+      - type: regex
+        part: header
+        regex:
+          - "Location: https://example.com"

@@ -1,0 +1,26 @@
+id: tech-stack-fingerprint
+
+info:
+  name: Tech Stack Fingerprinting
+  author: RamahProgrammer
+  severity: info
+  tags: recon,headers,tech,fingerprint
+
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    headers:
+      User-Agent: Mozilla/5.0 (ReconBot)
+
+    matchers:
+      - type: regex
+        part: header
+        regex:
+          - "x-powered-by:.*"
+          - "server:.*"
+          - "x-aspnet-version:.*"
+          - "x-runtime:.*"
+          - "x-drupal-cache:.*"
+          - "x-generator:.*"

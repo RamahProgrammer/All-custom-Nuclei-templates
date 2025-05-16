@@ -1,0 +1,25 @@
+id: cloud-metadata-leak
+
+info:
+  name: Cloud Metadata Exposure
+  author: RamahProgrammer
+  severity: high
+  tags: recon,cloud,metadata,aws,gcp,azure
+
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}/latest/meta-data/"
+      - "{{BaseURL}}/metadata/instance?api-version=2021-02-01"
+
+    headers:
+      Metadata: true
+
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "ami-id"
+          - "instance-id"
+          - "subscriptionId"
+          - "compute"
