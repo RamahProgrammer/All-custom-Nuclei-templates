@@ -1,0 +1,32 @@
+id: graphql-introspection
+
+info:
+  name: GraphQL Introspection Enabled
+  author: RamahProgrammer
+  severity: medium
+  description: |
+    Detects exposed GraphQL introspection which can lead to endpoint and schema disclosure.
+  tags: graphql,introspection,api,exposure
+
+requests:
+  - method: POST
+    path:
+      - "{{BaseURL}}/graphql"
+      - "{{BaseURL}}/api/graphql"
+
+    headers:
+      Content-Type: application/json
+
+    body: |
+      {
+        "query": "query IntrospectionQuery { __schema { types { name } } }"
+      }
+
+    matchers:
+      - type: word
+        words:
+          - "__schema"
+          - "types"
+        condition: and
+
+    matchers-condition: and

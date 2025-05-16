@@ -1,0 +1,36 @@
+id: openapi-param-fuzz
+
+info:
+  name: OpenAPI Parameter Fuzzing
+  author: RamahProgrammer
+  severity: medium
+  description: |
+    Fuzzes OpenAPI-defined endpoints with basic payloads to identify weak input validation.
+  tags: openapi,fuzzing,api,injection
+
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}/api/product?id=FUZZ"
+
+    payloads:
+      FUZZ:
+        - "'"
+        - "<script>"
+        - "../../../../../etc/passwd"
+        - "1 OR 1=1"
+
+    attack: clusterbomb
+
+    matchers:
+      - type: status
+        status:
+          - 500
+          - 403
+      - type: word
+        words:
+          - "syntax error"
+          - "exception"
+        condition: or
+
+    matchers-condition: or

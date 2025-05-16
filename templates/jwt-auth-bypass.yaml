@@ -1,0 +1,30 @@
+id: jwt-auth-bypass
+
+info:
+  name: JWT Auth Bypass
+  author: RamahProgrammer
+  severity: high
+  description: |
+    Detects if endpoints respond without requiring a JWT bearer token.
+  tags: jwt,auth,api,bypass
+
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}/api/account"
+
+    headers:
+      User-Agent: nuclei-auth-test
+      Authorization: Bearer invalid.token.here
+
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "email"
+          - "user"
+        condition: or
+
+    matchers-condition: and

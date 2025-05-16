@@ -1,0 +1,31 @@
+id: rate-limit-bypass
+
+info:
+  name: Rate Limiting Missing or Weak
+  author: RamahProgrammer
+  severity: medium
+  description: |
+    Sends multiple requests quickly to detect lack of rate limiting protections.
+  tags: rate-limit,abuse,api,dos
+
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}/api/user/profile"
+
+    headers:
+      User-Agent: nuclei-rate-check
+
+    attack: clusterbomb
+    payloads:
+      reqs:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+
+    matchers:
+      - type: status
+        status:
+          - 200

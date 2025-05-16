@@ -1,0 +1,29 @@
+id: openapi-docs-exposed
+
+info:
+  name: Exposed OpenAPI/Swagger Documentation
+  author: RamahProgrammer
+  severity: low
+  description: |
+    Detects if Swagger/OpenAPI documentation is publicly accessible.
+  tags: openapi,swagger,docs,exposure,recon
+
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}/swagger.json"
+      - "{{BaseURL}}/swagger.yaml"
+      - "{{BaseURL}}/v2/api-docs"
+      - "{{BaseURL}}/openapi.json"
+      - "{{BaseURL}}/api-docs"
+      - "{{BaseURL}}/swagger-ui.html"
+
+    matchers:
+      - type: word
+        words:
+          - "swagger"
+          - "openapi"
+          - "paths"
+        condition: or
+
+    matchers-condition: and

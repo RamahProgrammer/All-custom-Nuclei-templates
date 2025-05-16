@@ -1,0 +1,30 @@
+id: bola-user-id-enumeration
+
+info:
+  name: BOLA - Insecure Direct Object Reference
+  author: RamahProgrammer
+  severity: critical
+  description: |
+    Tests for insecure direct object access by changing user ID in endpoint.
+  tags: bola,idor,api,auth
+
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}/api/user/2"
+
+    headers:
+      Authorization: Bearer YOUR_VALID_JWT
+      User-Agent: nuclei-bola-test
+
+    matchers:
+      - type: status
+        status:
+          - 200
+      - type: word
+        words:
+          - "email"
+          - "user"
+        condition: or
+
+    matchers-condition: and
